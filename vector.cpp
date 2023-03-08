@@ -8,11 +8,9 @@ private:
 	int size{ 0 };
 	int capacity{ };
 	void expand_capacity();
-
 public:
 	Vector(int size);
 	~Vector();
-
 	int get_size();
 	T get_front();
 	T get_back();
@@ -23,6 +21,10 @@ public:
 	void push_back(T value);
 	void right_rotate();
 	void left_rotate();
+	void right_rotate_with_steps(int numberOfRotation);
+	void left_rotate_with_steps(int numberOfRotation);
+	T pop(int index);
+	int find_transposition(T value);
 };
 
 template <class T>
@@ -103,17 +105,37 @@ void Vector<T>::left_rotate() {
 		arr[i - 1] = arr[i];
 	arr[size - 1] = first_element;
 }
-int main() {
-
-	int n = 2;
-	Vector<int> v(n);
-	for (int i = 0; i < n; ++i)
-		v.set(i, i);
-	for (int i = 0; i < 15; ++i)
-		v.push_back(i + 10);
-	v.right_rotate();
-	v.right_rotate();
-	v.left_rotate();
-	v.print();
-	return 0;
+template <class T>
+void Vector<T>::right_rotate_with_steps(int t) {
+	t %= size;
+	while (t--) {
+		right_rotate();
+	}
+}
+template <class T>
+void Vector<T>::left_rotate_with_steps(int t) {
+	t %= size;
+	while (t--) {
+		left_rotate();
+	}
+}
+template <class T>
+T Vector<T>::pop(int idx) {
+	assert(idx >= 0 && idx < size);
+	T element = arr[idx];
+	for (int i = idx; i < size; i++) {
+		arr[i] = arr[i + 1];
+	}
+	size--;
+	return element;
+}
+template <class T>
+int Vector<T>::find_transposition(T value) {
+	for (int i = 0; i < size; ++i)
+		if (arr[i] == value) {
+			if (i == 0)return 0;
+			swap(arr[i], arr[i - 1]);
+			return i - 1;
+		}
+	return -1;
 }

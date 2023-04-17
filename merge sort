@@ -1,0 +1,27 @@
+const int n = 1e5 + 3;
+int arr[n];
+void merge(int* a, int sza, int* b, int szb) {
+	int* c = new int[sza + szb] {};
+	int idxa = 0, idxb = 0, idxc = 0;
+	while (idxa < sza && idxb < szb) {
+		c[idxc++] = (a[idxa] < b[idxb] ? a[idxa++]: b[idxb++]);
+	}
+	while(idxa<sza){
+		c[idxc++] = a[idxa++];
+	}
+	while(idxb<szb){
+		c[idxc++] = b[idxb++];
+	}
+	for (int i = 0; i < sza + szb; i++) {
+		a[i] = c[i];
+	}
+}
+void mergeSort(int* a, int size) {
+	if (size < 2) {
+		return;
+	}
+	int mid = size / 2;
+	mergeSort(a, mid);
+	mergeSort(a + mid, size - mid);
+	merge(a, mid, a + mid, size - mid);
+}

@@ -1,0 +1,70 @@
+#include<iostream>
+using namespace std;
+const int MAX_SIZE = 1000;
+/// <summary>
+/// stack imp
+/// </linked list based stack>
+/// LIFO (last in first out)
+/// <returns>list of items</returns>
+template<class T>
+class stackByLinkedList {
+private:
+    struct Node{
+        T item;
+        Node*next;
+    };
+    Node*top;
+public:
+	stackByLinkedList() {
+        top = nullptr;
+	}
+	void push(T value){
+	    Node*newItem = new Node;
+	    if(newItem == nullptr){
+            cout<<"stack error"<<endl;
+	    }else{
+            newItem->item = value;
+            newItem->next = top;
+            top = newItem;
+        }
+    }
+    T pop(){
+        if(isEmpty()){
+            cout<<"empty stack"<<endl;
+            return -1;
+        }else{
+            Node*temp = top;
+            top = temp->next;
+            return temp->item;
+        }
+    }
+    bool isEmpty(){
+        return top == nullptr;
+    }
+    T peek(){
+        if(isEmpty()){
+            cout<<"empty stack"<<endl;
+        }else{
+            return top->item;
+        }
+    }
+    void print(){
+        Node*temp = top;
+        cout<<"["<<;
+        while(temp!=nullptr){
+            cout<<temp->item<<" ";
+            temp = temp->next;
+        }
+        cout<<"]"<<endl;
+    }
+};
+int main() {
+    stackByLinkedList<int>stk;
+    stk.push(1);
+    stk.push(2);
+    stk.push(3);
+    stk.pop();
+    stk.push(4);
+    stk.print();
+	return 0;
+}

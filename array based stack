@@ -56,6 +56,70 @@ public:
 		cout << "]\n";
 	}
 };
+bool isEqual(char open, char close) {
+	if (open == '[' && close == ']')return true;
+	else if (open == '{' && close == '}')return true;
+	else if (open == '(' && close == ')')return true;
+	else return false;
+}
+bool isBalanced(string exp) {
+	stack<char>stk;
+	for (int i = 0; i < exp.length(); i++) {
+		if (exp[i] == '[' || exp[i] == '{' || exp[i] == '(') {
+			stk.push(exp[i]);
+		}
+		else if(exp[i] == ']' || exp[i] == '}' ||exp[i] ==')') {
+			if(stk.empty() || !isEqual(stk.top(), exp[i])) {
+				return false;
+			}
+			else{
+				stk.pop();
+			}
+		}
+	}
+	return stk.empty() ? true : false;
+}
+int priority(char ch) {
+	if (ch == '^')
+		return 3;
+	else if (ch == '/' || ch == '*')
+		return 2;
+	else if (ch == '+' || ch == '-')
+		return 1;
+	else return -1;
+}
+string PostFixExpression(string infix){
+	string res = "";
+	stack<char>stk;
+	
+	for (int i = 0; i < infix.length(); i++) {
+		char ch = infix[i];
+		if( ch >= 'a' && ch<='z' || ch == 'A' && ch == 'Z' || ch>= '0' && ch <='9'){
+			res += ch;
+		}
+		else if (ch == '(') {
+			stk.push('(');
+		}
+		else if (ch == ')') {
+			while (stk.top() != '(') {
+				res += stk.top();
+				stk.pop();
+			}
+		}
+		else {
+			while (!stk.empty() && priority(ch) <= priority(stk.top())) {
+				res += stk.top();
+				stk.pop();
+			}
+			stk.push(ch);
+		}
+	}
+	while (!stk.empty()){
+		res += stk.top();
+		stk.pop();
+	}
+	return res;
+}
 int main() {
     stackByArray<int>stk;
     stk.push(1);
